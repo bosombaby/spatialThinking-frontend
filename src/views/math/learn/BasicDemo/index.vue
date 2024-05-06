@@ -5,23 +5,26 @@ import Stats from "three/examples/jsm/libs/stats.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import baseTexture from "@/assets/textures/crate.png";
 
+import { throttle } from "@/utils/tool";
+
 defineOptions({
   name: "BasicDemo"
 });
 
 const rootDom = ref(null);
+const statsDom = ref(null);
 
 let controls, stats;
 let scene, camera, renderer;
 
-let getCanvasSize = () => {
+const getCanvasSize = () => {
   return {
     width: rootDom.value.clientWidth,
     height: rootDom.value.clientHeight
   };
 };
 
-let initViewer = () => {
+const initViewer = () => {
   const { width, height } = getCanvasSize();
 
   scene = new THREE.Scene();
@@ -52,12 +55,12 @@ let initViewer = () => {
   camera.lookAt(scene.position);
 
   renderer = new THREE.WebGLRenderer({
+    canvas: rootDom.value,
     antialias: true
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(width, height);
   renderer.setClearColor(0xb9d3ff);
-  rootDom.value.appendChild(renderer.domElement);
 
   //控制器
   controls = new OrbitControls(camera, renderer.domElement);
@@ -68,11 +71,11 @@ let initViewer = () => {
   stats = new Stats();
   stats.dom.style.position = "absolute";
   stats.dom.style.zIndex = "100";
-  rootDom.value.appendChild(stats.domElement);
+  statsDom.value.appendChild(stats.domElement);
 };
 
 // 动画渲染
-let animate = () => {
+const animate = () => {
   controls.update();
   stats.update();
   renderer.render(scene, camera);
@@ -83,7 +86,7 @@ let animate = () => {
 let onWindowsResize = () => {
   const { width, height } = getCanvasSize();
 
-  console.log(width, height);
+  console.log("监听屏幕变化", width, height);
 
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
@@ -92,7 +95,7 @@ let onWindowsResize = () => {
 };
 
 //双击全屏
-let onWindowsScreen = () => {
+const onWindowsScreen = () => {
   let isFullScreen = document.fullscreenElement;
   if (!isFullScreen) {
     renderer.domElement.requestFullscreen();
@@ -101,9 +104,8 @@ let onWindowsScreen = () => {
   }
 };
 
-// TODO: 监听窗口变化，节流操作
-let expandFunction = () => {
-  window.addEventListener("resize", onWindowsResize);
+const expandFunction = () => {
+  window.addEventListener("resize", throttle(onWindowsResize, 500));
   window.addEventListener("dblclick", onWindowsScreen);
 };
 
@@ -115,12 +117,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="rootDom" class="three-box" />
+  <div>
+    <canvas id="webgl" ref="rootDom"></canvas>
+    <div class="stats" ref="statsDom"></div>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.three-box {
-  // min-width: 80%;
-  height: 82vh;
+#webgl {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stats {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 100;
 }
 </style>

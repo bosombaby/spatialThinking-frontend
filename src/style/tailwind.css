@@ -18,4 +18,24 @@
   .navbar-bg-hover {
     @apply dark:text-white dark:hover:!bg-[#242424];
   }
+
+  .ty-form {
+    @apply flex items-center justify-start gap-x-4 flex-wrap;
+  }
+
+  .ty-card {
+    @apply w-full p-4 shadow  rounded-md;
+  }
+
+  .ty-card-detail {
+    @apply w-full p-4 flex flex-col gap-y-4 shadow  bg-white rounded-md;
+  }
+
+  .ty-card-tip {
+    @apply w-72 p-2 shadow bg-white rounded-md absolute right-4 border-2 border-sky-400 z-10;
+  }
+
+  .ty-link {
+    @apply text-sm text-sky-500 hover:text-blue-600 cursor-pointer transition-colors;
+  }
 }
