@@ -124,13 +124,6 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-#webgl {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 .stats {
   position: relative;
   top: 0;

@@ -23,7 +23,6 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import * as THREE from "three";
-import Stats from "three/examples/jsm/libs/stats.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { geometryList } from "./config";
 
@@ -51,10 +50,7 @@ const initViewer = () => {
     camera.position.set(1.8, 1.5, 1.8);
     scene.userData.element = element;
     scene.userData.camera = camera;
-
-    //坐标轴
-    // let axisHelper = new THREE.AxesHelper(1500);
-    // scene.add(axisHelper);
+    camera.lookAt(scene.position);
 
     // 控制器
     const controls = new OrbitControls(
@@ -113,7 +109,7 @@ const render = () => {
   updateSize();
   canvas.style.transform = `translateY(${window.scrollY}px)`;
   // 渲染器颜色、部分剪裁
-  renderer.setClearColor(0xffffff);
+  renderer.setClearColor(0xf0f2f5);
   renderer.setScissorTest(false);
   renderer.clear();
 
