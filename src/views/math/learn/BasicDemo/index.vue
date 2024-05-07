@@ -1,16 +1,22 @@
-<script setup lang="ts">
-import { onMounted, ref } from "vue";
+<template>
+  <div ref="threeDom">
+    <canvas id="webgl" ref="rootDom"></canvas>
+    <div class="stats" ref="statsDom"></div>
+  </div>
+</template>
+
+<script setup>
+import { ref,onMounted } from "vue";
 import * as THREE from "three";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import baseTexture from "@/assets/textures/crate.png";
 
-import { throttle } from "@/utils/tool";
-
 defineOptions({
   name: "BasicDemo"
 });
 
+const threeDom = ref(null);
 const rootDom = ref(null);
 const statsDom = ref(null);
 
@@ -18,9 +24,11 @@ let controls, stats;
 let scene, camera, renderer;
 
 const getCanvasSize = () => {
+  if (!threeDom.value) return console.error("threeDom is not defined");
+
   return {
-    width: rootDom.value.clientWidth,
-    height: rootDom.value.clientHeight
+    width: threeDom.value.clientWidth,
+    height: threeDom.value.clientHeight
   };
 };
 
@@ -105,7 +113,7 @@ const onWindowsScreen = () => {
 };
 
 const expandFunction = () => {
-  window.addEventListener("resize", throttle(onWindowsResize, 500));
+  window.addEventListener("resize", onWindowsResize);
   window.addEventListener("dblclick", onWindowsScreen);
 };
 
@@ -115,13 +123,6 @@ onMounted(() => {
   expandFunction();
 });
 </script>
-
-<template>
-  <div>
-    <canvas id="webgl" ref="rootDom"></canvas>
-    <div class="stats" ref="statsDom"></div>
-  </div>
-</template>
 
 <style scoped lang="scss">
 .stats {

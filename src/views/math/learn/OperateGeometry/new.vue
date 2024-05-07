@@ -720,6 +720,33 @@ const getCanvasSize = () => {
   };
 };
 
+// 通用操作，自动旋转 坐标轴 栅格化 颜色
+const modelConfig = {
+  color: "0x156289",
+  wireframe: false,
+  axisHelper: false,
+  autoRotate: true
+};
+
+const generateGlobalGUI = mesh => {
+  const target = mesh.children[1];
+  const folder = gui.addFolder("Global.Config");
+
+  folder.addColor(modelConfig, "color").onChange(() => {
+    target.material.color.set(modelConfig.color);
+  });
+
+  folder.add(modelConfig, "wireframe").onChange(() => {
+    target.material.wireframe = modelConfig.wireframe;
+  });
+
+  folder.add(modelConfig, "axisHelper").onChange(() => {
+    axisHelper.visible = modelConfig.axisHelper;
+  });
+
+  folder.add(modelConfig, "autoRotate");
+};
+
 const initViewer = () => {
   const { width, height } = getCanvasSize();
 
@@ -731,6 +758,7 @@ const initViewer = () => {
   //坐标轴
   axisHelper = new AxesHelper(1500);
   scene.add(axisHelper);
+  axisHelper.visible = modelConfig.axisHelper;
 
   camera = new PerspectiveCamera(75, width / height, 0.1, 500);
   camera.position.z = 30;
@@ -776,6 +804,7 @@ const initViewer = () => {
   group.add(new Mesh(geometry, meshMaterial));
 
   chooseFromHash(group);
+  generateGlobalGUI(group);
 
   scene.add(group);
 };
@@ -783,8 +812,10 @@ const initViewer = () => {
 const animate = () => {
   requestAnimationFrame(animate);
 
-  group.rotation.x += 0.005;
-  group.rotation.y += 0.005;
+  if (modelConfig.autoRotate) {
+    group.rotation.x += 0.005;
+    group.rotation.y += 0.005;
+  }
 
   renderer.render(scene, camera);
 };

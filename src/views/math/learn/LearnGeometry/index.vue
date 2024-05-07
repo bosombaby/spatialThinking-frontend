@@ -47,7 +47,7 @@ const initViewer = () => {
     // 单个场景
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 100);
-    camera.position.set(1.8, 1.5, 1.8);
+    camera.position.set(2, 1.5, 2);
     scene.userData.element = element;
     scene.userData.camera = camera;
     camera.lookAt(scene.position);
@@ -117,7 +117,7 @@ const render = () => {
   renderer.setScissorTest(true);
   scenes.forEach(scene => {
     // TODO: 旋转样式
-    // scene.children[0].rotation.y = Date.now() * autoSpeed;
+    scene.children[0].rotation.y = Date.now() * autoSpeed;
 
     const element = scene.userData.element;
 
@@ -181,9 +181,11 @@ onMounted(() => {
   position: relative;
   top: 0;
   width: 100%;
+  padding: 0 1.5rem;
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  justify-content: space-between;
+  gap: 2rem;
 }
 </style>
