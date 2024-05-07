@@ -74,6 +74,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .frame {
   position: absolute;
+  min-height: 100%;
   inset: 0;
 
   .frame-iframe {

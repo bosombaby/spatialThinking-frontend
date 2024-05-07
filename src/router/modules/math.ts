@@ -1,4 +1,6 @@
 // 数学模块菜单
+import frameView from "@/layout/frameView.vue";
+
 export default {
   path: "/math",
   redirect: "/math/learn/0",
@@ -12,6 +14,7 @@ export default {
       path: "/math/learn",
       redirect: "/math/learn/0",
       meta: {
+        icon: "ri:book-2-line",
         title: "学习"
       },
       children: [
@@ -59,6 +62,41 @@ export default {
           }
         }
       ]
+    },
+    {
+      path: "/math/game",
+      meta: {
+        icon: "ri:gamepad-line",
+        title: "游戏"
+      },
+      children: [
+        {
+          path: "/math/game/0",
+          name: "RacingGame",
+          component: frameView,
+          meta: {
+            title: "赛车游戏",
+            frameSrc: "https://vr.ff.com/us/"
+          }
+        },
+        {
+          path: "/math/game/1",
+          name: "MireCraft",
+          component: frameView,
+          meta: {
+            title: "我的世界",
+            frameSrc:
+              "http://localhost:8080/examples/webgl_geometry_minecraft.html"
+          }
+        }
+      ]
+    },
+    {
+      path: "/math/level",
+      meta: {
+        icon: "ri:star-line",
+        title: "闯关"
+      }
     }
   ]
 };
