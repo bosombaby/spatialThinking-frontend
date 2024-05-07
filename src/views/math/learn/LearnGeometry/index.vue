@@ -3,7 +3,7 @@
     <canvas id="webgl"></canvas>
     <ul id="content">
       <li
-        v-for="item in geometryList"
+        v-for="(item, index) in geometryList"
         class="flex flex-col gap-y-2 justify-between w-[15rem] h-[15rem] ty-card"
       >
         <div
@@ -12,7 +12,7 @@
         ></div>
         <div class="flex-bc">
           <span>{{ item.title }} </span>
-          <el-button type="primary" @click="goDetail">查看</el-button>
+          <el-button type="primary" @click="goDetail(item)">查看</el-button>
         </div>
       </li>
     </ul>
@@ -154,9 +154,12 @@ const animate = () => {
 };
 
 // 查看详情
-const goDetail = () => {
+const goDetail = item => {
   router.push({
-    name: "OperateGeometry"
+    name: "OperateGeometryNew",
+    query: {
+      type: item.name
+    }
   });
 };
 

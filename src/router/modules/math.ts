@@ -32,10 +32,19 @@ export default {
           }
         },
         {
-          path: "/math/learn/detail",
+          path: "/math/learn/detail/:id",
           component: () =>
             import("@/views/math/learn/OperateGeometry/index.vue"),
           name: "OperateGeometry",
+          meta: {
+            title: "详情页面",
+            showLink: false
+          }
+        },
+        {
+          path: "/math/learn/detail",
+          component: () => import("@/views/math/learn/OperateGeometry/new.vue"),
+          name: "OperateGeometryNew",
           meta: {
             title: "详情页面",
             showLink: false

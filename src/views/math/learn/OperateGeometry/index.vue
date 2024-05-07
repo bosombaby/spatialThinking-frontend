@@ -36,6 +36,18 @@
             @change="handleModelConfig"
           />
         </div>
+        <div class="flex">
+          <span>颜色：</span>
+          <el-color-picker
+            v-model="modelConfig.color"
+            show-alpha
+            @active-change="
+              value => {
+                target.material.color.set(value);
+              }
+            "
+          />
+        </div>
         <div class="flex items-center">
           <span>栅格化：</span>
           <el-switch
@@ -74,7 +86,7 @@
           />
         </div>
         <div class="flex items-center">
-          <el-button plain>重置</el-button>
+          <!-- <el-button plain>重置</el-button> -->
           <el-button type="primary">分享</el-button>
         </div>
       </div>
@@ -82,15 +94,21 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, onMounted } from "vue";
+import { getCurrentRoute } from "@/hooks/useRouterState";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import baseTexture from "@/assets/textures/crate.png";
+
 defineOptions({
   name: "OperateGeometry"
 });
+
 const rootDom = ref(null);
+const { id } = getCurrentRoute();
+
+console.log(id);
 
 const resetConfig = {
   width: 1,
@@ -105,6 +123,7 @@ const modelConfig = reactive({
   width: 1,
   height: 1,
   depth: 1,
+  color: "#ff0000",
   isOpenWireframe: false,
   isShowAxisHelper: true,
   isAutoRotate: true
@@ -130,7 +149,7 @@ const initViewer = () => {
   let geometry = new THREE.BoxGeometry(modelConfig.width, 1, 1);
   let texture = new THREE.TextureLoader().load(baseTexture);
   let material = new THREE.MeshBasicMaterial({
-    map: texture,
+    color: "red",
     wireframe: modelConfig.isOpenWireframe
   });
   target = new THREE.Mesh(geometry, material);
@@ -176,10 +195,9 @@ const animate = () => {
 const handleModelConfig = () => {
   target.scale.set(modelConfig.width, modelConfig.height, modelConfig.depth);
 };
+
 onMounted(() => {
   initViewer();
   animate();
 });
 </script>
-
-<style scoped></style>
