@@ -86,7 +86,7 @@ export default {
           meta: {
             title: "我的世界",
             frameSrc:
-              "http://localhost:8080/examples/webgl_geometry_minecraft.html"
+              "https://three.vrteam.top/examples/webgl_geometry_minecraft.html"
           }
         }
       ]

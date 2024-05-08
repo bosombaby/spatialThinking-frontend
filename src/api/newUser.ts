@@ -22,3 +22,7 @@ export type UserResult = {
 export const getLogin = (data?: object) => {
   return http.request<UserResult>("post", "/users/login", { data });
 };
+
+export const getUserInfo = (data?: object) => {
+  return http.request("post", "/users/info", { data });
+};

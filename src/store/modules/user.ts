@@ -5,7 +5,7 @@ import { routerArrays } from "@/layout/types";
 import { router, resetRouter } from "@/router";
 import { storageLocal } from "@pureadmin/utils";
 // import { getLogin, refreshTokenApi } from "@/api/user";
-import { getLogin } from "@/api/newUser";
+import { getLogin, getUserInfo } from "@/api/newUser";
 
 import type { UserResult } from "@/api/newUser";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
@@ -14,6 +14,9 @@ import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
 export const useUserStore = defineStore({
   id: "pure-user",
   state: (): userType => ({
+    id: storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "",
+    // 用户信息
+    userInfo: {},
     // 用户名
     username: storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "",
     // 页面级别权限
@@ -32,6 +35,10 @@ export const useUserStore = defineStore({
     SET_ROLES(roles: Array<string>) {
       this.roles = roles;
     },
+    /** 存储用户信息 **/
+    SET_USERINFO(data: DataInfo<number>) {
+      this.userInfo = data;
+    },
     /** 存储是否勾选了登录页的免登录 */
     SET_ISREMEMBERED(bool: boolean) {
       this.isRemembered = bool;
@@ -49,6 +56,19 @@ export const useUserStore = defineStore({
               setToken(data.data);
               resolve(data);
             }
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+
+    /** 获取用户信息 */
+    async getUserInfo() {
+      return new Promise<UserResult>((resolve, reject) => {
+        getUserInfo()
+          .then(data => {
+            console.log(data);
           })
           .catch(error => {
             reject(error);

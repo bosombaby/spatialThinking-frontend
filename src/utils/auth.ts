@@ -15,7 +15,7 @@ export interface DataInfo<T> {
   roles?: Array<string>;
 }
 
-export const userKey = "user-info";
+export const userKey = "user-token";
 export const TokenKey = "authorized-token";
 /**
  * 通过`multiple-tabs`是否在`cookie`中，判断用户是否已经登录系统，
@@ -62,10 +62,11 @@ export function setToken(data: DataInfo<Date>) {
       : {}
   );
 
-  function setUserKey(username: string, roles: Array<string>) {
+  function setUserKey(id: string, username: string, roles: Array<string>) {
     useUserStoreHook().SET_USERNAME(username);
     useUserStoreHook().SET_ROLES(roles);
     storageLocal().setItem(userKey, {
+      id,
       refreshToken,
       expires,
       username,
@@ -73,9 +74,9 @@ export function setToken(data: DataInfo<Date>) {
     });
   }
 
-  if (data.username && data.roles) {
-    const { username, roles } = data;
-    setUserKey(username, roles);
+  if (data.id && data.username && data.roles) {
+    const { id, username, roles } = data;
+    setUserKey(id, username, roles);
   } else {
     const username =
       storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "";
