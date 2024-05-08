@@ -14,7 +14,7 @@ import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
 export const useUserStore = defineStore({
   id: "pure-user",
   state: (): userType => ({
-    id: storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "",
+    id: storageLocal().getItem<DataInfo<number>>(userKey)?.id ?? "",
     // 用户信息
     userInfo: {},
     // 用户名
@@ -66,9 +66,13 @@ export const useUserStore = defineStore({
     /** 获取用户信息 */
     async getUserInfo() {
       return new Promise<UserResult>((resolve, reject) => {
-        getUserInfo()
+        getUserInfo({ userId: this.id })
           .then(data => {
-            console.log(data);
+            if (data.status === 200) {
+              this.userInfo = data.data;
+              storageLocal().setItem("userInfo", this.userInfo);
+              resolve(data);
+            }
           })
           .catch(error => {
             reject(error);
@@ -77,8 +81,11 @@ export const useUserStore = defineStore({
     },
     /** 前端登出（不调用接口） */
     logOut() {
+      this.id = "";
       this.username = "";
       this.roles = [];
+      this.userInfo = {};
+      storageLocal().removeItem("userInfo");
       removeToken();
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();

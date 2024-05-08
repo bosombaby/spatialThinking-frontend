@@ -19,10 +19,17 @@ export type UserResult = {
   };
 };
 
+export type UserInfo = {
+  status: Number;
+  msg: string;
+  success: boolean;
+  data: object;
+};
+
 export const getLogin = (data?: object) => {
   return http.request<UserResult>("post", "/users/login", { data });
 };
 
 export const getUserInfo = (data?: object) => {
-  return http.request("post", "/users/info", { data });
+  return http.request<UserInfo>("post", "/users/info", { data });
 };

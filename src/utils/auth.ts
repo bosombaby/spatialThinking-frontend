@@ -3,6 +3,7 @@ import { storageLocal } from "@pureadmin/utils";
 import { useUserStoreHook } from "@/store/modules/user";
 
 export interface DataInfo<T> {
+  id: string;
   /** token */
   accessToken: string;
   /** `accessToken`的过期时间（时间戳） */
