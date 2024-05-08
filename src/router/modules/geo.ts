@@ -1,5 +1,5 @@
 // 地理菜单模块
-
+import frameView from "@/layout/frameView.vue";
 export default {
   path: "/geo",
   redirect: "/geo/learn/0",
@@ -40,7 +40,82 @@ export default {
       meta: {
         icon: "ri:gamepad-line",
         title: "游戏"
-      }
+      },
+      children: [
+        {
+          path: "/geo/game/0",
+          name: "Aircraft",
+          component: frameView,
+          meta: {
+            title: "飞行器",
+            frameSrc: "https://aircraft.vrteam.top/"
+          }
+        },
+        {
+          path: "/geo/game/1",
+          name: "ExperienceCuriosity",
+          component: frameView,
+          meta: {
+            title: "探索好奇心",
+            frameSrc: "https://eyes.nasa.gov/curiosity/"
+          }
+        },
+        {
+          path: "/geo/game/2",
+          name: "ExperienceInsight",
+          component: frameView,
+          meta: {
+            title: "探索洞察力",
+            frameSrc:
+              "https://eyes.nasa.gov/apps/experience-insight/InSight.html"
+          }
+        }
+      ]
+    },
+    {
+      path: "/geo/space",
+      meta: {
+        icon: "ri:earth-fill",
+        title: "航天"
+      },
+      children: [
+        {
+          path: "/geo/space/0",
+          name: "Earth",
+          component: frameView,
+          meta: {
+            title: "地球",
+            frameSrc: "https://eyes.nasa.gov/apps/earth/"
+          }
+        },
+        {
+          path: "/geo/space/1",
+          name: "SolarSystem",
+          component: frameView,
+          meta: {
+            title: "太阳系",
+            frameSrc: "https://eyes.nasa.gov/apps/solar-system/#/home"
+          }
+        },
+        {
+          path: "/geo/space/2",
+          name: "Asteroids",
+          component: frameView,
+          meta: {
+            title: "小行星",
+            frameSrc: "https://eyes.nasa.gov/apps/asteroids/#/home"
+          }
+        },
+        {
+          path: "/geo/space/3",
+          name: "Exoplanets",
+          component: frameView,
+          meta: {
+            title: "系外行星",
+            frameSrc: "https://eyes.nasa.gov/apps/exo/"
+          }
+        }
+      ]
     },
     {
       path: "/geo/level",

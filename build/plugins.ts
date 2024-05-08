@@ -1,9 +1,13 @@
 import { cdn } from "./cdn";
+
 import vue from "@vitejs/plugin-vue";
 import { viteBuildInfo } from "./info";
+import cesium from "vite-plugin-cesium";
 import svgLoader from "vite-svg-loader";
+
 import type { PluginOption } from "vite";
 import vueJsx from "@vitejs/plugin-vue-jsx";
+
 import { configCompressPlugin } from "./compress";
 import removeNoMatch from "vite-plugin-router-warn";
 import { visualizer } from "rollup-plugin-visualizer";
@@ -19,6 +23,7 @@ export function getPluginsList(
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     vue(),
+    cesium(),
     // jsx、tsx语法支持
     vueJsx(),
     viteBuildInfo(),
