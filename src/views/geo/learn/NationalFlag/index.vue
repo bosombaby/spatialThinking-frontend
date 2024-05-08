@@ -6,14 +6,14 @@
       >
         <div id="flag-show" class="w-full flex-">
           <img
-            src="@/assets/flag/china.png"
+            src="@/assets/flag/1024.png"
             alt="中国国旗"
             class="w-full h-full"
           />
         </div>
         <div class="flex-bc">
           <span>中国国旗</span>
-          <el-button type="primary">查看</el-button>
+          <el-button type="primary" @click="goDetail">查看</el-button>
         </div>
       </li>
     </ul>
@@ -21,9 +21,16 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 defineOptions({
   name: "NationalFlag"
 });
+
+const goDetail = () => {
+  router.push({ name: "NationalFlagDetail" });
+};
 </script>
 
 <style lang="scss" scoped></style>

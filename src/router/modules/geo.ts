@@ -26,6 +26,16 @@ export default {
           }
         },
         {
+          path: "/geo/learn/detail",
+          name: "NationalFlagDetail",
+          component: () =>
+            import("@/views/geo/learn/NationalFlagDetail/index.vue"),
+          meta: {
+            title: "详情页面",
+            showLink: false
+          }
+        },
+        {
           path: "/geo/learn/1",
           name: "EarthRoaming",
           component: () => import("@/views/geo/learn/EarthRoaming/index.vue"),
