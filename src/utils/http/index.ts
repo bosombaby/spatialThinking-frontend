@@ -1,3 +1,4 @@
+import { ElMessage } from "element-plus";
 import Axios, {
   type AxiosInstance,
   type AxiosRequestConfig,
@@ -34,6 +35,11 @@ class PureHttp {
   constructor() {
     this.httpInterceptorsRequest();
     this.httpInterceptorsResponse();
+  }
+
+  /** 默认控制台格式化输出数据 */
+  private static formatData(method: string, url: string, data: any): void {
+    console.log(`%c${method} %c${url}`, "color: #00f", "color: #f00", data);
   }
 
   /** token过期后，暂存待执行的请求 */

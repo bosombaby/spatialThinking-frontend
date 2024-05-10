@@ -31,6 +31,8 @@ defineOptions({
   name: "MyInformation"
 });
 
+// TODO:问题排查
+
 // 获取用户信息
 userStore.getUserInfo();
 </script>

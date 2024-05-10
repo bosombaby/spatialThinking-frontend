@@ -1,5 +1,6 @@
 // 数学模块菜单
 import frameView from "@/layout/frameView.vue";
+import ChallengeLevel from "@/components/ChallengeLevel/index.vue";
 
 export default {
   path: "/math",
@@ -93,10 +94,29 @@ export default {
     },
     {
       path: "/math/level",
+      redirect: "/math/level/0",
       meta: {
         icon: "ri:star-line",
         title: "闯关"
-      }
+      },
+      children: [
+        {
+          path: "/math/level/0",
+          component: () => import("@/components/ChallengeLevel/index.vue"),
+          name: "Beginner",
+          meta: {
+            title: "入门"
+          }
+        },
+        {
+          path: "/math/level/1",
+          component: () => import("@/components/ChallengeLevel/index.vue"),
+          name: "Easy",
+          meta: {
+            title: "简单"
+          }
+        }
+      ]
     }
   ]
 };

@@ -10,6 +10,7 @@ import { getLogin, getUserInfo } from "@/api/newUser";
 import type { UserResult } from "@/api/newUser";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
+import { log } from "console";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -54,6 +55,8 @@ export const useUserStore = defineStore({
           .then(data => {
             if (data.status === 200) {
               setToken(data.data);
+              this.id = data.data.id;
+              this.getUserInfo();
               resolve(data);
             }
           })

@@ -79,11 +79,12 @@ export function setToken(data: DataInfo<Date>) {
     const { id, username, roles } = data;
     setUserKey(id, username, roles);
   } else {
+    const id = storageLocal().getItem<DataInfo<number>>(userKey)?.id ?? "";
     const username =
       storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "";
     const roles =
       storageLocal().getItem<DataInfo<number>>(userKey)?.roles ?? [];
-    setUserKey(username, roles);
+    setUserKey(id, username, roles);
   }
 }
 
