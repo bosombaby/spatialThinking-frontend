@@ -121,7 +121,12 @@ const guis = {
       depth: 15,
       widthSegments: 1,
       heightSegments: 1,
-      depthSegments: 1
+      depthSegments: 1,
+      areaFormula: "2 * (w * h + w * d + h * d)",
+      volumeFormula: "w * h * d",
+      isShowResult: false,
+      area: "",
+      volume: ""
     };
 
     function generateGeometry() {
@@ -136,6 +141,14 @@ const guis = {
           data.depthSegments
         )
       );
+
+      data.area =
+        2 *
+          (data.width * data.height +
+            data.width * data.depth +
+            data.height * data.depth) +
+        " cm²";
+      data.volume = data.width * data.height * data.depth + " cm³";
     }
 
     const folder = gui.addFolder("THREE.BoxGeometry");
@@ -150,6 +163,21 @@ const guis = {
       .onChange(generateGeometry);
     folder.add(data, "depthSegments", 1, 10).step(1).onChange(generateGeometry);
 
+    const formula = gui.addFolder("计算公式");
+    formula.add(data, "areaFormula").name("面积公式").listen();
+    formula.add(data, "volumeFormula").name("体积公式").listen();
+    formula
+      .add(data, "isShowResult")
+      .name("计算结果")
+      .onChange(() => {
+        data.isShowResult ? result.show() : result.hide();
+      });
+
+    const result = gui.addFolder("计算结果");
+
+    result.add(data, "area").name("面积").listen();
+    result.add(data, "volume").name("体积").listen();
+    data.isShowResult ? result.show() : result.hide();
     generateGeometry();
   },
 

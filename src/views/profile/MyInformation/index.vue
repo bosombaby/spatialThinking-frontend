@@ -1,5 +1,26 @@
 <template>
-  <div>我的信息</div>
+  <div>
+    <el-descriptions title="个人信息" :column="3" border>
+      <el-descriptions-item label="用户名">{{
+        userStore.userInfo.username
+      }}</el-descriptions-item>
+      <el-descriptions-item label="昵称">{{
+        userStore.userInfo.profile.nickname
+      }}</el-descriptions-item>
+      <el-descriptions-item label="邮箱">{{
+        userStore.userInfo.email
+      }}</el-descriptions-item>
+      <el-descriptions-item label="后台登录时间">{{
+        userStore.userInfo.last_login
+      }}</el-descriptions-item>
+      <el-descriptions-item label="金币数目">
+        {{ userStore.userInfo.profile.gold_count }}
+      </el-descriptions-item>
+      <el-descriptions-item label="会员等级">
+        {{ userStore.userInfo.profile.membership_level }}
+      </el-descriptions-item>
+    </el-descriptions>
+  </div>
 </template>
 
 <script setup>

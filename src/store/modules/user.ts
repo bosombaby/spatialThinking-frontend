@@ -16,7 +16,7 @@ export const useUserStore = defineStore({
   state: (): userType => ({
     id: storageLocal().getItem<DataInfo<number>>(userKey)?.id ?? "",
     // 用户信息
-    userInfo: {},
+    userInfo: storageLocal().getItem("userInfo") ?? {},
     // 用户名
     username: storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "",
     // 页面级别权限
