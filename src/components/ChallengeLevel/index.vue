@@ -34,19 +34,13 @@
       >
         <div class="flex items-center gap-x-3">
           <!-- 结果展示 -->
-          <div>
+          <div v-if="isHistoryRecord">
             <IconifyIconOffline
               :icon="EmotionSad"
-              v-if="
-                isHistoryRecord &&
-                userAnswerList[index] !== officeAnswerList[index]
-              "
+              v-if="userAnswerList[index] !== officeAnswerList[index]"
               class="w-8 h-8 text-red-400"
             /><IconifyIconOffline
-              v-if="
-                isHistoryRecord &&
-                userAnswerList[index] == officeAnswerList[index]
-              "
+              v-if="userAnswerList[index] == officeAnswerList[index]"
               :icon="EmotionHappy"
               class="w-8 h-8 text-sky-400"
             />
