@@ -94,23 +94,23 @@ export default {
     },
     {
       path: "/math/level",
-      redirect: "/math/level/0",
+      redirect: "/math/level/1",
       meta: {
         icon: "ri:star-line",
         title: "闯关"
       },
       children: [
         {
-          path: "/math/level/0",
-          component: () => import("@/components/ChallengeLevel/index.vue"),
+          path: "/math/level/1",
+          component: () => import("@/views/level/index.vue"),
           name: "Beginner",
           meta: {
             title: "入门"
           }
         },
         {
-          path: "/math/level/1",
-          component: () => import("@/components/ChallengeLevel/index.vue"),
+          path: "/math/level/2",
+          component: () => import("@/views/level/index.vue"),
           name: "Easy",
           meta: {
             title: "简单"
