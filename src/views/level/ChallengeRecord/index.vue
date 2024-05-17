@@ -9,23 +9,19 @@
             {{ levelObj.description }}
           </span>
         </div>
-        <IconifyIconOffline :icon="Check" />
-        <!-- 计时专区 -->
-        <div class="text-base font-bold">
-          <span>剩余时间：</span>
-          <span class="text-red-500">00:00:00</span>
-        </div>
         <!-- 右侧结果 -->
         <div class="flex items-center gap-x-2">
-          <div class="text-sm text-red-500" v-if="isHistoryRecord">
-            历史得分：{{ levelObj.record_list.score }}
+          <div class="text-sm text-red-500">
+            当前得分：{{ levelObj.record_list.score }}
           </div>
           <!-- 点击查看弹窗 -->
-          <div class="text-sm ty-link">勋章</div>
+          <div class="text-sm ty-link" @click="badgeVisible = true">勋章</div>
+          <div class="text-sm ty-link" @click="scoringVisible = true">
+            答题分析
+          </div>
         </div>
       </div>
     </div>
-
     <ul class="question-list ty-card bg-indigo-100 flex-1">
       <li
         v-for="(item, index) in levelObj.question_list"
@@ -34,7 +30,7 @@
       >
         <div class="flex items-center gap-x-3">
           <!-- 结果展示 -->
-          <div v-if="isHistoryRecord">
+          <div>
             <IconifyIconOffline
               :icon="EmotionSad"
               v-if="userAnswerList[index] !== officeAnswerList[index]"
@@ -53,30 +49,22 @@
         </div>
 
         <el-radio-group v-model="userAnswerList[index]" class="flex flex-col">
-          <el-radio value="A" size="large" :disabled="isHistoryRecord">
+          <el-radio value="A" size="large" disabled>
             {{ item.option_a }}
           </el-radio>
-          <el-radio value="B" size="large" :disabled="isHistoryRecord">{{
+          <el-radio value="B" size="large" disabled>{{
             item.option_b
           }}</el-radio>
-          <el-radio
-            value="C"
-            size="large"
-            :disabled="isHistoryRecord"
-            v-if="item.option_c"
-            >{{ item.option_c }}</el-radio
-          >
-          <el-radio
-            value="D"
-            size="large"
-            :disabled="isHistoryRecord"
-            v-if="item.option_d"
-            >{{ item.option_d }}</el-radio
-          >
+          <el-radio value="C" size="large" disabled v-if="item.option_c">{{
+            item.option_c
+          }}</el-radio>
+          <el-radio value="D" size="large" disabled v-if="item.option_d">{{
+            item.option_d
+          }}</el-radio>
         </el-radio-group>
 
         <!-- 显示正确答案和解析 -->
-        <el-collapse v-if="isHistoryRecord">
+        <el-collapse>
           <el-collapse-item title="答案解析">
             <div
               class="font-bold mb-2 pl-4"
@@ -95,113 +83,56 @@
       </li>
     </ul>
     <div class="flex justify-center ty-card bg-indigo-100">
-      <div v-if="!isHistoryRecord">
-        <el-button plain>暂存</el-button>
-        <el-button type="primary" @click="sumbitAnswer">提交</el-button>
-      </div>
-      <div v-else>
-        <el-button type="primary" @click="reChallenge">重新挑战</el-button>
-      </div>
+      <el-button type="primary" @click="reChallenge">重新挑战</el-button>
     </div>
+
+    <!-- 勋章查看 -->
+    <el-dialog title="勋章预览" v-model="badgeVisible" width="30%">
+      <view-badge-dialog :badge="levelObj.badge" />
+    </el-dialog>
+
+    <!-- 答题分析 -->
+    <el-dialog title="答题分析" v-model="scoringVisible" width="30%">
+      <view-scoring-dialog :scoring="levelObj.scoring" />
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+import { ref } from "vue";
 import EmotionSad from "@iconify-icons/ri/emotion-sad-line";
 import EmotionHappy from "@iconify-icons/ri/emotion-happy-line";
-import { ref, reactive, onMounted } from "vue";
-import { useUserStoreHook } from "@/store/modules/user";
-import { getCurrentRoute } from "@/hooks/useRouterState";
-import { getQuestionList, createLevelRecord } from "@/api/level";
-defineOptions({
-  name: "Beginner"
+import ViewBadgeDialog from "../components/ViewBadgeDialog.vue";
+import ViewScoringDialog from "../components/ViewScoringDialog.vue";
+const props = defineProps({
+  levelObj: {
+    type: Object,
+    required: true
+  }
 });
 
-const userStore = useUserStoreHook();
-// 获取当前关卡的id
-const { fullPath } = getCurrentRoute();
-const match = fullPath.match(/\d+$/);
-const level_id = match ? parseInt(match[0]) + 1 : 1;
-
-let userAnswerList = ref([]);
-let officeAnswerList = ref([]);
-
-// 生成正确答案列表
-const getOfficeAnswerList = () => {
+const emits = defineEmits(["update:isReChallenge", "getQuestionData"]);
+const userAnswerList = ref([]);
+const officeAnswerList = ref([]);
+const badgeVisible = ref(false);
+const scoringVisible = ref(false);
+// 计算官方答案和用户答案
+const generateAnswerList = () => {
+  userAnswerList.value = props.levelObj.record_list.answer.split(",");
   const list = [];
-  levelObj.value.question_list.forEach(item => {
+  props.levelObj.question_list.forEach(item => {
     list.push(item.answer);
   });
 
   officeAnswerList.value = list;
 };
 
-// 填充历史闯关记录
-const fillHistoryRecord = () => {
-  userAnswerList.value = levelObj.value.record_list.answer.split(",");
-};
-
-let levelObj = ref({});
-const isHistoryRecord = ref(false);
-const getQuestionData = async () => {
-  const params = {
-    user_id: userStore.id,
-    level_id
-  };
-  const res = await getQuestionList(params);
-  levelObj.value = res.data;
-  isHistoryRecord.value = res.data.is_has_record;
-  getOfficeAnswerList();
-
-  isHistoryRecord.value && fillHistoryRecord();
-};
-
-getQuestionData();
-
-// 判断是否所有选项都勾选
-const isAllChecked = () => {
-  return (
-    userAnswerList.value.filter(item => item).length ===
-    officeAnswerList.value.length
-  );
-};
-
-// 计算当前试卷得分
-const calculateScore = () => {
-  let score = 0;
-  userAnswerList.value.forEach((item, index) => {
-    if (item === officeAnswerList.value[index]) {
-      score += 10;
-    }
-  });
-  return score;
-};
-
-// 提交答卷
-const sumbitAnswer = async () => {
-  if (!isAllChecked()) {
-    ElMessage.error("请完成所有题目后再提交");
-    return;
-  }
-
-  const score = calculateScore();
-  const params = {
-    user_id: userStore.id,
-    level_id,
-    result: "已完成",
-    answer: userAnswerList.value.join(","),
-    score: score
-  };
-  const res = await createLevelRecord(params);
-  ElMessage.success(res.msg);
-  getQuestionData();
-};
+generateAnswerList();
 
 // 重新挑战
 const reChallenge = () => {
-  userAnswerList.value = [];
-  isHistoryRecord.value = false;
+  emits("getQuestionData");
+  emits("update:isReChallenge", true);
 };
 </script>
 

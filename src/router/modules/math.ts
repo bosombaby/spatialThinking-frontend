@@ -101,15 +101,15 @@ export default {
       },
       children: [
         {
-          path: "/math/level/1",
-          component: () => import("@/views/level/index.vue"),
+          path: "/math/level/0",
+          component: ChallengeLevel,
           name: "Beginner",
           meta: {
             title: "入门"
           }
         },
         {
-          path: "/math/level/2",
+          path: "/math/level/1",
           component: () => import("@/views/level/index.vue"),
           name: "Easy",
           meta: {

@@ -15,7 +15,17 @@ defineOptions({
 });
 
 const initViewer = () => {
-  const viewer = new Cesium.Viewer("cesiumContainer", {});
+  const viewer = new Cesium.Viewer("cesiumContainer", {
+    geocoder: true, // 显示查找位置
+    homeButton: true, // 显示返回视角到初始位置
+    sceneModePicker: true, // 显示视角模式的选择
+    baseLayerPicker: true, // 显示图层选择器
+    navigationHelpButton: true, // 显示帮助
+    animation: true, // 显示动画速度控制器
+    timeline: true, // 显示时间轴
+    fullscreenButton: true, // 显示全屏按钮
+    shouldAnimate: true
+  });
 
   // 隐藏版权信息
   viewer._cesiumWidget._creditContainer.style.display = "none";
