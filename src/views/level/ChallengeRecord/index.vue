@@ -42,9 +42,10 @@
             />
           </div>
           <!-- 题目内容 -->
-          <div>
-            {{ index + 1 + ". " }}
-            {{ item.content }}
+          <div class="flex">
+            <span>{{ index + 1 + ". " }}</span>
+            <p>{{ item.content }}</p>
+            <span class="text-red-500"> {{ item.question_score + "分" }}</span>
           </div>
         </div>
 
@@ -99,7 +100,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import EmotionSad from "@iconify-icons/ri/emotion-sad-line";
 import EmotionHappy from "@iconify-icons/ri/emotion-happy-line";
 import ViewBadgeDialog from "../components/ViewBadgeDialog.vue";
@@ -134,6 +135,14 @@ const reChallenge = () => {
   emits("getQuestionData");
   emits("update:isReChallenge", true);
 };
+
+onMounted(() => {
+  nextTick(() => {
+    MathJax.texReset();
+    MathJax.typesetClear();
+    MathJax.typesetPromise();
+  });
+});
 </script>
 
 <style lang="scss" scoped>

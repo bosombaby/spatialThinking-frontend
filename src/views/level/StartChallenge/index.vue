@@ -29,9 +29,10 @@
         class="mb-4"
       >
         <!-- 题目内容 -->
-        <div>
-          {{ index + 1 + ". " }}
-          {{ item.content }}
+        <div class="flex">
+          <span>{{ index + 1 + ". " }}</span>
+          <p>{{ item.content }}</p>
+          <span class="text-red-500"> {{ item.question_score + "分" }}</span>
         </div>
         <div class="flex items-center gap-x-3">
           <el-radio-group v-model="userAnswerList[index]" class="flex flex-col">
@@ -94,7 +95,7 @@ getUserAnswer();
 const getOfficeAnswerList = () => {
   const list = [];
   props.levelObj.question_list.forEach(item => {
-    list.push(item.answer);
+    list.push({ answer: item.answer, score: item.question_score });
   });
 
   officeAnswerList.value = list;
@@ -111,11 +112,12 @@ const isAllChecked = () => {
 // 计算当前试卷得分
 const calculateScore = () => {
   let score = 0;
-  userAnswerList.value.forEach((item, index) => {
-    if (item === officeAnswerList.value[index]) {
-      score += 10;
+  officeAnswerList.value.forEach((item, index) => {
+    if (item.answer === userAnswerList.value[index]) {
+      score += item.score;
     }
   });
+
   return score;
 };
 

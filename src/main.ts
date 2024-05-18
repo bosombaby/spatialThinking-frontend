@@ -8,6 +8,7 @@ import { createApp, type Directive } from "vue";
 import { useElementPlus } from "@/plugins/elementPlus";
 import { injectResponsiveStorage } from "@/utils/responsive";
 import "@/utils/MathJax/index.ts";
+import "mathjax/es5/tex-mml-chtml"; // 使用 tex-mml-chtml
 
 import Table from "@pureadmin/table";
 // import PureDescriptions from "@pureadmin/descriptions";
