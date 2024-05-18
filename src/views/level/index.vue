@@ -42,7 +42,7 @@ let levelObj = ref({});
 const isHistoryRecord = ref(false);
 const getQuestionData = async () => {
   const params = {
-    level_id: 1,
+    level_id: level_id,
     user_id: userStore.id
   };
   const res = await getQuestionList(params);

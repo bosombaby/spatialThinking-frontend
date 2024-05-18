@@ -51,17 +51,37 @@
 
         <el-radio-group v-model="userAnswerList[index]" class="flex flex-col">
           <el-radio value="A" size="large" disabled>
-            {{ item.option_a }}
+            <span
+              :class="[
+                userAnswerList[index] == 'A' ? 'font-bold text-black' : ''
+              ]"
+              >{{ item.option_a }}</span
+            >
           </el-radio>
-          <el-radio value="B" size="large" disabled>{{
-            item.option_b
-          }}</el-radio>
-          <el-radio value="C" size="large" disabled v-if="item.option_c">{{
-            item.option_c
-          }}</el-radio>
-          <el-radio value="D" size="large" disabled v-if="item.option_d">{{
-            item.option_d
-          }}</el-radio>
+          <el-radio value="B" size="large" disabled>
+            <span
+              :class="[
+                userAnswerList[index] == 'B' ? 'font-bold text-black' : ''
+              ]"
+              >{{ item.option_b }}</span
+            ></el-radio
+          >
+          <el-radio value="C" size="large" disabled v-if="item.option_c"
+            ><span
+              :class="[
+                userAnswerList[index] == 'C' ? 'font-bold text-black' : ''
+              ]"
+              >{{ item.option_c }}</span
+            ></el-radio
+          >
+          <el-radio value="D" size="large" disabled v-if="item.option_d"
+            ><span
+              :class="[
+                userAnswerList[index] == 'D' ? 'font-bold text-black' : ''
+              ]"
+              >{{ item.option_d }}</span
+            ></el-radio
+          >
         </el-radio-group>
 
         <!-- 显示正确答案和解析 -->
