@@ -28,7 +28,7 @@
         :key="item.id"
         class="mb-4"
       >
-        <div class="flex items-center gap-x-3">
+        <div class="flex items-center gap-x-2">
           <!-- 结果展示 -->
           <div>
             <IconifyIconOffline
@@ -45,7 +45,9 @@
           <div class="flex">
             <span>{{ index + 1 + ". " }}</span>
             <p>{{ item.content }}</p>
-            <span class="text-red-500"> {{ item.question_score + "分" }}</span>
+            <span class="text-red-500 min-w-16">
+              {{ item.question_score + "分" }}</span
+            >
           </div>
         </div>
 
@@ -95,8 +97,11 @@
                   : 'text-red-400'
               ]"
             >
-              正确答案：{{ officeAnswerList[index] }} ，我的答案：
-              {{ userAnswerList[index] }}
+              <span>
+                正确答案：{{ officeAnswerList[index] }} ，我的答案：
+                {{ userAnswerList[index] }}</span
+              >
+              <span class="ml-6 ty-link">辅助链接：</span>
             </div>
             <div class="pl-4 text-sm" v-html="`${item.solution}`"></div>
           </el-collapse-item>

@@ -32,7 +32,9 @@
         <div class="flex">
           <span>{{ index + 1 + ". " }}</span>
           <p>{{ item.content }}</p>
-          <span class="text-red-500"> {{ item.question_score + "分" }}</span>
+          <span class="text-red-500 min-w-16">
+            {{ item.question_score + "分" }}</span
+          >
         </div>
         <div class="flex items-center gap-x-3">
           <el-radio-group v-model="userAnswerList[index]" class="flex flex-col">
