@@ -101,7 +101,11 @@
                 正确答案：{{ officeAnswerList[index] }} ，我的答案：
                 {{ userAnswerList[index] }}</span
               >
-              <span class="ml-6 ty-link">辅助链接：</span>
+              <span
+                class="ml-6 ty-link text-red-300"
+                @click="handleLinkClick(item.solving_link)"
+                >辅助链接</span
+              >
             </div>
             <div class="pl-4 text-sm" v-html="`${item.solution}`"></div>
           </el-collapse-item>
@@ -130,6 +134,7 @@ import EmotionSad from "@iconify-icons/ri/emotion-sad-line";
 import EmotionHappy from "@iconify-icons/ri/emotion-happy-line";
 import ViewBadgeDialog from "../components/ViewBadgeDialog.vue";
 import ViewScoringDialog from "../components/ViewScoringDialog.vue";
+
 const props = defineProps({
   levelObj: {
     type: Object,
@@ -154,6 +159,13 @@ const generateAnswerList = () => {
 };
 
 generateAnswerList();
+
+// 辅助链接点击
+const handleLinkClick = target => {
+  const originUrl = window.location.origin;
+  const currentUrl = originUrl + "/#" + target;
+  window.open(currentUrl, "_blank");
+};
 
 // 重新挑战
 const reChallenge = () => {

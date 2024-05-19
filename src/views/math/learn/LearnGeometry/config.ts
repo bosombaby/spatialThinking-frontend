@@ -33,6 +33,21 @@ const path = new CustomSinCurve(10);
 
 const geometryList = [
   {
+    title: "平面缓冲几何体",
+    name: "PlaneGeometry",
+    geometry: new THREE.PlaneGeometry(1, 1)
+  },
+  {
+    title: "圆形缓冲几何体",
+    name: "CircleGeometry",
+    geometry: new THREE.CircleGeometry(1, 32)
+  },
+  {
+    title: "圆环缓冲几何体",
+    name: "RingGeometry",
+    geometry: new THREE.RingGeometry(0.5, 1, 32)
+  },
+  {
     title: "立方缓冲几何体",
     name: "BoxGeometry",
     geometry: new THREE.BoxGeometry(1, 1, 1),
@@ -48,16 +63,6 @@ const geometryList = [
     }
   },
   {
-    title: "胶囊几何体",
-    name: "CapsuleGeometry",
-    geometry: new THREE.CapsuleGeometry(0.5, 0.5, 4, 8)
-  },
-  {
-    title: "圆形缓冲几何体",
-    name: "CircleGeometry",
-    geometry: new THREE.CircleGeometry(1, 32)
-  },
-  {
     title: "圆锥缓冲几何体",
     name: "ConeGeometry",
     geometry: new THREE.ConeGeometry(1, 1, 32)
@@ -66,6 +71,32 @@ const geometryList = [
     title: "圆柱缓冲几何体",
     name: "CylinderGeometry",
     geometry: new THREE.CylinderGeometry(1, 1, 1, 32)
+  },
+
+  {
+    title: "球缓冲几何体",
+    name: "SphereGeometry",
+    geometry: new THREE.SphereGeometry(1, 32, 32)
+  },
+  {
+    title: "四面缓冲几何体",
+    name: "TetrahedronGeometry",
+    geometry: new THREE.TetrahedronGeometry(1)
+  },
+  {
+    title: "八面缓冲几何体",
+    name: "OctahedronGeometry",
+    geometry: new THREE.OctahedronGeometry(1)
+  },
+  {
+    title: "二十面缓冲几何体",
+    name: "IcosahedronGeometry",
+    geometry: new THREE.IcosahedronGeometry(1)
+  },
+  {
+    title: "胶囊几何体",
+    name: "CapsuleGeometry",
+    geometry: new THREE.CapsuleGeometry(0.5, 0.5, 4, 8)
   },
   {
     title: "挤压缓冲几何体",
@@ -84,11 +115,6 @@ const geometryList = [
     )
   },
   {
-    title: "二十面缓冲几何体",
-    name: "IcosahedronGeometry",
-    geometry: new THREE.IcosahedronGeometry(1)
-  },
-  {
     title: "车削缓冲几何体",
     name: "LatheGeometry",
     geometry: new THREE.LatheGeometry([
@@ -97,35 +123,11 @@ const geometryList = [
       new THREE.Vector2(2, 2)
     ])
   },
-  {
-    title: "八面缓冲几何体",
-    name: "OctahedronGeometry",
-    geometry: new THREE.OctahedronGeometry(1)
-  },
-  {
-    title: "平面缓冲几何体",
-    name: "PlaneGeometry",
-    geometry: new THREE.PlaneGeometry(1, 1)
-  },
-  {
-    title: "圆环缓冲几何体",
-    name: "RingGeometry",
-    geometry: new THREE.RingGeometry(0.5, 1, 32)
-  },
+
   {
     title: "形状缓冲几何体",
     name: "ShapeGeometry",
     geometry: new THREE.ShapeGeometry(heartShape)
-  },
-  {
-    title: "球缓冲几何体",
-    name: "SphereGeometry",
-    geometry: new THREE.SphereGeometry(1, 32, 32)
-  },
-  {
-    title: "四面缓冲几何体",
-    name: "TetrahedronGeometry",
-    geometry: new THREE.TetrahedronGeometry(1)
   },
   {
     title: "圆环缓冲几何体",

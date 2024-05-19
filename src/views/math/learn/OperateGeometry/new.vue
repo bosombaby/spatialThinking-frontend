@@ -58,7 +58,6 @@ defineOptions({
 const { type } = getCurrentRoute();
 
 let gui, scene, axisHelper, camera, renderer, group, controls;
-
 const threeDom = ref(null);
 const rootDom = ref(null);
 const guiDom = ref(null);
@@ -143,12 +142,13 @@ const guis = {
       );
 
       data.area =
-        2 *
+        (
+          2 *
           (data.width * data.height +
             data.width * data.depth +
-            data.height * data.depth) +
-        " cm²";
-      data.volume = data.width * data.height * data.depth + " cm³";
+            data.height * data.depth)
+        ).toFixed(3) + " cm²";
+      data.volume = (data.width * data.height * data.depth).toFixed(3) + " cm³";
     }
 
     const folder = gui.addFolder("THREE.BoxGeometry");
@@ -218,20 +218,28 @@ const guis = {
     const data = {
       radiusTop: 5,
       radiusBottom: 5,
+      radius: 5,
       height: 10,
-      radialSegments: 8,
+      radialSegments: 64,
       heightSegments: 1,
       openEnded: false,
       thetaStart: 0,
-      thetaLength: twoPi
+      thetaLength: twoPi,
+      volumeFormula: "π * r² * l",
+      sideAreaFormula: "2 * π * r * l",
+      bottomAreaFormula: "π * r² * l",
+      isShowResult: false,
+      volume: "",
+      sideArea: "",
+      bottomArea: ""
     };
 
     function generateGeometry() {
       updateGroupGeometry(
         mesh,
         new CylinderGeometry(
-          data.radiusTop,
-          data.radiusBottom,
+          data.radius,
+          data.radius,
           data.height,
           data.radialSegments,
           data.heightSegments,
@@ -240,12 +248,36 @@ const guis = {
           data.thetaLength
         )
       );
+
+      data.sideArea =
+        (
+          2 *
+          Math.PI *
+          data.radius *
+          data.height *
+          (data.thetaLength / twoPi)
+        ).toFixed(3) + " cm²";
+
+      data.bottomArea =
+        (2 * Math.PI * data.radius ** 2 * (data.thetaLength / twoPi)).toFixed(
+          3
+        ) + " cm²";
+
+      data.volume =
+        (
+          Math.PI *
+          data.radius ** 2 *
+          data.height *
+          (data.thetaLength / twoPi)
+        ).toFixed(3) + " cm³";
+
+      if (data.openEnded) data.bottomArea = "0 cm²";
     }
 
     const folder = gui.addFolder("THREE.CylinderGeometry");
 
-    folder.add(data, "radiusTop", 0, 30).onChange(generateGeometry);
-    folder.add(data, "radiusBottom", 0, 30).onChange(generateGeometry);
+    folder.add(data, "radius", 0, 30).onChange(generateGeometry);
+    // folder.add(data, "radiusBottom", 0, 30).onChange(generateGeometry);
     folder.add(data, "height", 1, 50).onChange(generateGeometry);
     folder
       .add(data, "radialSegments", 3, 64)
@@ -259,6 +291,24 @@ const guis = {
     folder.add(data, "thetaStart", 0, twoPi).onChange(generateGeometry);
     folder.add(data, "thetaLength", 0, twoPi).onChange(generateGeometry);
 
+    const formula = gui.addFolder("计算公式");
+    formula.add(data, "sideAreaFormula").name("侧面积公式").listen();
+    formula.add(data, "bottomAreaFormula").name("底面积公式").listen();
+    formula.add(data, "volumeFormula").name("体积公式").listen();
+    formula
+      .add(data, "isShowResult")
+      .name("计算结果")
+      .onChange(() => {
+        data.isShowResult ? result.show() : result.hide();
+      });
+
+    const result = gui.addFolder("计算结果");
+
+    result.add(data, "sideArea").name("侧面积").listen();
+    result.add(data, "bottomArea").name("底面积").listen();
+    result.add(data, "volume").name("体积").listen();
+    data.isShowResult ? result.show() : result.hide();
+
     generateGeometry();
   },
 
@@ -266,11 +316,18 @@ const guis = {
     const data = {
       radius: 5,
       height: 10,
-      radialSegments: 8,
+      radialSegments: 64,
       heightSegments: 1,
       openEnded: false,
       thetaStart: 0,
-      thetaLength: twoPi
+      thetaLength: twoPi,
+      volumeFormula: "1/3 * π * r² * l",
+      sideAreaFormula: "π * r * √(r² + h²) * l",
+      bottomAreaFormula: "π * r² * l",
+      isShowResult: false,
+      volume: "",
+      sideArea: "",
+      bottomArea: ""
     };
 
     function generateGeometry() {
@@ -286,6 +343,28 @@ const guis = {
           data.thetaLength
         )
       );
+
+      data.sideArea =
+        (
+          Math.PI *
+          data.radius *
+          Math.sqrt(data.radius ** 2 + data.height ** 2) *
+          (data.thetaLength / twoPi)
+        ).toFixed(3) + " cm²";
+
+      data.bottomArea =
+        (Math.PI * data.radius ** 2 * (data.thetaLength / twoPi)).toFixed(3) +
+        " cm²";
+      data.volume =
+        (
+          (1 / 3) *
+          Math.PI *
+          data.radius ** 2 *
+          data.height *
+          (data.thetaLength / twoPi)
+        ).toFixed(3) + " cm³";
+
+      if (data.openEnded) data.bottomArea = "0 cm²";
     }
 
     const folder = gui.addFolder("THREE.ConeGeometry");
@@ -293,7 +372,7 @@ const guis = {
     folder.add(data, "radius", 0, 30).onChange(generateGeometry);
     folder.add(data, "height", 1, 50).onChange(generateGeometry);
     folder
-      .add(data, "radialSegments", 3, 64)
+      .add(data, "radialSegments", 1, 64)
       .step(1)
       .onChange(generateGeometry);
     folder
@@ -304,6 +383,23 @@ const guis = {
     folder.add(data, "thetaStart", 0, twoPi).onChange(generateGeometry);
     folder.add(data, "thetaLength", 0, twoPi).onChange(generateGeometry);
 
+    const formula = gui.addFolder("计算公式");
+    formula.add(data, "sideAreaFormula").name("侧面积公式").listen();
+    formula.add(data, "bottomAreaFormula").name("底面积公式").listen();
+    formula.add(data, "volumeFormula").name("体积公式").listen();
+    formula
+      .add(data, "isShowResult")
+      .name("计算结果")
+      .onChange(() => {
+        data.isShowResult ? result.show() : result.hide();
+      });
+
+    const result = gui.addFolder("计算结果");
+
+    result.add(data, "sideArea").name("侧面积").listen();
+    result.add(data, "bottomArea").name("底面积").listen();
+    result.add(data, "volume").name("体积").listen();
+    data.isShowResult ? result.show() : result.hide();
     generateGeometry();
   },
 
@@ -312,7 +408,10 @@ const guis = {
       radius: 10,
       segments: 32,
       thetaStart: 0,
-      thetaLength: twoPi
+      thetaLength: twoPi,
+      areaFormula: "π * r² * l / 2 * π",
+      isShowResult: false,
+      area: ""
     };
 
     function generateGeometry() {
@@ -325,6 +424,10 @@ const guis = {
           data.thetaLength
         )
       );
+
+      data.area =
+        (Math.PI * data.radius ** 2 * (data.thetaLength / twoPi)).toFixed(3) +
+        " cm²";
     }
 
     const folder = gui.addFolder("THREE.CircleGeometry");
@@ -333,7 +436,20 @@ const guis = {
     folder.add(data, "segments", 0, 128).step(1).onChange(generateGeometry);
     folder.add(data, "thetaStart", 0, twoPi).onChange(generateGeometry);
     folder.add(data, "thetaLength", 0, twoPi).onChange(generateGeometry);
+    const formula = gui.addFolder("计算公式");
+    formula.add(data, "areaFormula").name("面积公式").listen();
 
+    formula
+      .add(data, "isShowResult")
+      .name("计算结果")
+      .onChange(() => {
+        data.isShowResult ? result.show() : result.hide();
+      });
+
+    const result = gui.addFolder("计算结果");
+
+    result.add(data, "area").name("面积").listen();
+    data.isShowResult ? result.show() : result.hide();
     generateGeometry();
   },
 
@@ -438,7 +554,10 @@ const guis = {
       width: 10,
       height: 10,
       widthSegments: 1,
-      heightSegments: 1
+      heightSegments: 1,
+      areaFormula: "w * h",
+      isShowResult: false,
+      area: ""
     };
 
     function generateGeometry() {
@@ -451,6 +570,8 @@ const guis = {
           data.heightSegments
         )
       );
+
+      data.area = (data.width * data.height).toFixed(3) + " cm²";
     }
 
     const folder = gui.addFolder("THREE.PlaneGeometry");
@@ -463,6 +584,19 @@ const guis = {
       .step(1)
       .onChange(generateGeometry);
 
+    const formula = gui.addFolder("计算公式");
+    formula.add(data, "areaFormula").name("面积公式").listen();
+    formula
+      .add(data, "isShowResult")
+      .name("计算结果")
+      .onChange(() => {
+        data.isShowResult ? result.show() : result.hide();
+      });
+
+    const result = gui.addFolder("计算结果");
+
+    result.add(data, "area").name("面积").listen();
+    data.isShowResult ? result.show() : result.hide();
     generateGeometry();
   },
 
@@ -510,7 +644,12 @@ const guis = {
       phiStart: 0,
       phiLength: twoPi,
       thetaStart: 0,
-      thetaLength: Math.PI
+      thetaLength: Math.PI,
+      areaFormula: "4 * π * r²",
+      volumeFormula: "4/3 * π * r³",
+      isShowResult: false,
+      area: "",
+      volume: ""
     };
 
     function generateGeometry() {
@@ -526,6 +665,9 @@ const guis = {
           data.thetaLength
         )
       );
+
+      data.area = (4 * Math.PI * data.radius ** 2).toFixed(3) + " cm²";
+      data.volume = ((4 / 3) * Math.PI * data.radius ** 3).toFixed(3) + " cm³";
     }
 
     const folder = gui.addFolder("THREE.SphereGeometry");
@@ -541,6 +683,21 @@ const guis = {
     folder.add(data, "thetaStart", 0, twoPi).onChange(generateGeometry);
     folder.add(data, "thetaLength", 0, twoPi).onChange(generateGeometry);
 
+    const formula = gui.addFolder("计算公式");
+    formula.add(data, "areaFormula").name("面积公式").listen();
+    formula.add(data, "volumeFormula").name("体积公式").listen();
+    formula
+      .add(data, "isShowResult")
+      .name("计算结果")
+      .onChange(() => {
+        data.isShowResult ? result.show() : result.hide();
+      });
+
+    const result = gui.addFolder("计算结果");
+
+    result.add(data, "area").name("面积").listen();
+    result.add(data, "volume").name("体积").listen();
+    data.isShowResult ? result.show() : result.hide();
     generateGeometry();
   },
 
@@ -844,6 +1001,7 @@ const animate = () => {
     group.rotation.x += 0.005;
     group.rotation.y += 0.005;
   }
+  controls.update();
 
   renderer.render(scene, camera);
 };
