@@ -1,8 +1,8 @@
 <template>
   <div class="flex-bc gap-x-4">
-    <canvas class="flex-1 h-full" ref="rootDom"></canvas>
+    <canvas class="w-4/5 h-full" ref="rootDom"></canvas>
     <div
-      class="w-56 h-full shadow rounded-md bg-white flex flex-col items-center"
+      class="flex-1 h-full shadow rounded-md bg-white flex flex-col items-center"
     >
       <div class="font-bold mt-4">操作栏</div>
       <div class="text-sm pl-4 my-4">

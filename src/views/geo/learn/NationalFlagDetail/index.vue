@@ -1,8 +1,8 @@
 <template>
   <div class="flex-bc gap-x-4">
-    <canvas class="flex-1 h-full" ref="rootDom"></canvas>
+    <canvas class="w-2/3 h-full" ref="rootDom"></canvas>
     <div
-      class="w-1/3 h-full shadow rounded-md bg-white flex flex-col items-center"
+      class="flex-1 h-full shadow rounded-md bg-white flex flex-col items-center"
     >
       <div class="font-bold my-4">国旗介绍</div>
       <div class="flex flex-col gap-y-2 pl-4 indent-4 text-gray-500">
