@@ -89,6 +89,7 @@ const setUserAnswer = () => {
 
 const getUserAnswer = () => {
   const userAnswer = localStorage.getItem(userAnswerStore);
+  if (!userAnswer) return;
   userAnswerList.value = JSON.parse(userAnswer);
 };
 getUserAnswer();
