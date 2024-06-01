@@ -23,6 +23,18 @@
       <el-table-column prop="result" label="结果" width="180" align="center" />
       <el-table-column prop="score" label="分数" width="180" align="center" />
       <el-table-column prop="answer" label="答案" width="180" align="center" />
+      <el-table-column
+        prop="gold_count"
+        label="金币数"
+        width="180"
+        align="center"
+      />
+      <el-table-column
+        prop="points"
+        label="积分数"
+        width="180"
+        align="center"
+      />
     </el-table>
   </div>
 </template>

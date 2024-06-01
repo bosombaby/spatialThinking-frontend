@@ -126,7 +126,11 @@
 
     <!-- 答题分析 -->
     <el-dialog title="答题分析" v-model="scoringVisible" width="30%">
-      <view-scoring-dialog :scoring="levelObj.scoring" />
+      <view-scoring-dialog
+        :scoring="levelObj.scoring"
+        :gold-count="levelObj.record_list.gold_count"
+        :points="levelObj.record_list.points"
+      />
     </el-dialog>
   </div>
 </template>

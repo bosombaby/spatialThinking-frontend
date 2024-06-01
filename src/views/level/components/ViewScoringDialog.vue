@@ -8,6 +8,12 @@
     </div>
     <h2 class="text-base mt-3 mb-1 font-bold text-black">空间思维评价：</h2>
     <ul v-html="details"></ul>
+
+    <h2 class="text-base mt-3 mb-1 font-bold text-black">获得奖励：</h2>
+    <div class="font-bold text-violet-800">
+      <span>金币：{{ goldCount }}</span>
+      <span class="ml-4">积分：{{ points }}</span>
+    </div>
   </div>
 </template>
 
@@ -15,6 +21,14 @@
 const props = defineProps({
   scoring: {
     type: Object,
+    required: true
+  },
+  goldCount: {
+    type: Number,
+    required: true
+  },
+  points: {
+    type: Number,
     required: true
   }
 });

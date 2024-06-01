@@ -16,6 +16,9 @@
       <el-descriptions-item label="金币数目">
         {{ userStore.userInfo.profile.gold_count }}
       </el-descriptions-item>
+      <el-descriptions-item label="积分数目">
+        {{ userStore.userInfo.profile.points }}
+      </el-descriptions-item>
       <el-descriptions-item label="会员等级">
         {{ userStore.userInfo.profile.membership_level }}
       </el-descriptions-item>
