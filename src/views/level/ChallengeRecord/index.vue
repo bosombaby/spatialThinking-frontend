@@ -118,7 +118,10 @@
 
     <!-- 勋章查看 -->
     <el-dialog title="勋章预览" v-model="badgeVisible" width="30%">
-      <view-badge-dialog :badge="levelObj.badge" />
+      <view-badge-dialog
+        :badge="levelObj.badge"
+        :score="levelObj.record_list.score"
+      />
     </el-dialog>
 
     <!-- 答题分析 -->
