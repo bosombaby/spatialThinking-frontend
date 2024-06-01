@@ -61,6 +61,26 @@ export default {
           meta: {
             title: "视图切换"
           }
+        },
+        {
+          path: "/math/learn/3",
+          name: "LDraw",
+          component: frameView,
+          meta: {
+            title: "乐高模型",
+            frameSrc:
+              "https://three.vrteam.top/examples/webgl_loader_ldraw.html"
+          }
+        },
+        {
+          path: "/math/learn/4",
+          name: "PhysicsAmmoBreak",
+          component: frameView,
+          meta: {
+            title: "物理引擎",
+            frameSrc:
+              "https://three.vrteam.top/examples/physics_ammo_break.html"
+          }
         }
       ]
     },

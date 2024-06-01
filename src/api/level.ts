@@ -9,3 +9,8 @@ export const getQuestionList = (data?: object) => {
 export const createLevelRecord = (data?: object) => {
   return http.post("/feedback/record/create", { data });
 };
+
+// 获取闯关记录
+export const getLevelRecord = (data?: object) => {
+  return http.post("/feedback/record/list", { data });
+};

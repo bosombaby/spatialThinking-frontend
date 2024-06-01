@@ -21,14 +21,6 @@ export default {
       meta: {
         title: "闯关记录"
       }
-    },
-    {
-      path: "/profile/pwd",
-      name: "ChangePassword",
-      component: () => import("@/views/profile/ChangePassword/index.vue"),
-      meta: {
-        title: "修改密码"
-      }
     }
   ]
 };

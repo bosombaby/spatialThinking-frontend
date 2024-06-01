@@ -186,3 +186,13 @@
     background: rgb(199 201 203); /* 滑块hover颜色 */
   }
 }
+
+.el-table thead {
+  color: #222 !important;
+  font-weight: 700 !important;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__wrapper {
+  width: 100% !important;
+}
