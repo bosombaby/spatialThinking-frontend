@@ -132,7 +132,33 @@ export default {
       meta: {
         icon: "ri:star-line",
         title: "闯关"
-      }
+      },
+      children: [
+        {
+          path: "/geo/level/3",
+          component: () => import("@/views/level/index.vue"),
+          name: "GeoBeginner",
+          meta: {
+            title: "入门"
+          }
+        },
+        {
+          path: "/geo/level/4",
+          component: () => import("@/views/level/index.vue"),
+          name: "GeoEasy",
+          meta: {
+            title: "简单"
+          }
+        },
+        {
+          path: "/geo/level/5",
+          component: () => import("@/views/level/index.vue"),
+          name: "GeoMedium",
+          meta: {
+            title: "中等"
+          }
+        }
+      ]
     }
   ]
 };

@@ -123,7 +123,7 @@ export default {
         {
           path: "/math/level/1",
           component: () => import("@/views/level/index.vue"),
-          name: "Beginner",
+          name: "MathBeginner",
           meta: {
             title: "入门"
           }
@@ -131,7 +131,7 @@ export default {
         {
           path: "/math/level/2",
           component: () => import("@/views/level/index.vue"),
-          name: "Easy",
+          name: "MathEasy",
           meta: {
             title: "简单"
           }
