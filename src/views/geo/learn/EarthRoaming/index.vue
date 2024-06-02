@@ -29,6 +29,13 @@ const initViewer = () => {
 
   // 隐藏版权信息
   viewer._cesiumWidget._creditContainer.style.display = "none";
+
+  // 设置时间
+  viewer.clock.currentTime = Cesium.JulianDate.addHours(
+    Cesium.JulianDate.now(new Date()),
+    8,
+    new Cesium.JulianDate()
+  );
 };
 
 onMounted(() => {
