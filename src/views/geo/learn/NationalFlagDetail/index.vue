@@ -4,10 +4,24 @@
     <div
       class="flex-1 h-full shadow rounded-md bg-white flex flex-col items-center"
     >
-      <div class="font-bold my-4">国旗介绍</div>
-      <div class="flex flex-col gap-y-2 pl-4 indent-4 text-gray-500">
-        中国国旗由红色底面和五颗黄色五角星组成。红色象征着革命，黄色五角星象征着中国共产党领导下的各族人民大团结。国旗上的五颗星中，一颗较大的星代表中国共产党，四颗较小的星环绕在大星的右侧，代表工人阶级、农民阶级、城市小资产阶级和民族资产阶级，这四个社会阶级在中国共产党的领导下团结起来。
-      </div>
+      <h2 class="font-bold my-4">国旗介绍</h2>
+      <p
+        class="flex flex-col gap-y-2 pl-4 indent-4 text-gray-500"
+        v-html="flagItem.flag_description"
+      ></p>
+
+      <h2 class="font-bold my-4">国家介绍</h2>
+      <p
+        class="flex flex-col gap-y-2 pl-4 indent-4 text-gray-500 text-sm"
+        v-html="flagItem.country_description"
+      ></p>
+
+      <h2 class="font-bold my-4">参考链接</h2>
+      <p class="flex gap-x-4 text-[18px]">
+        <a class="ty-link" :href="flagItem.baidu_link" target="_blank"
+          >百度百科</a
+        >
+      </p>
     </div>
   </div>
 </template>
@@ -15,12 +29,20 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import * as THREE from "three";
+import { getNationDetail } from "@/api/geo";
+import { getCurrentRoute } from "@/hooks/useRouterState";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import baseTexture from "@/assets/flag/1024.png";
 
 defineOptions({
   name: "NationalFlagDetail"
 });
+
+const { id } = getCurrentRoute();
+const flagItem = ref({});
+const getFlagData = async () => {
+  const res = await getNationDetail({ nation_id: id });
+  flagItem.value = res.data.nation_list[0];
+};
 
 const rootDom = ref(null);
 let scene, camera, renderer, controls;
@@ -58,8 +80,6 @@ const initViewer = () => {
   controls = new OrbitControls(camera, renderer.domElement);
 };
 
-// 生成国旗
-const texture = new THREE.TextureLoader().load(baseTexture);
 const vertexShader = `
         uniform vec2 uFrequency;
         uniform float uTime;
@@ -95,6 +115,7 @@ const fragmentShader = `
         `;
 let flag = null;
 const generateFlag = () => {
+  const texture = new THREE.TextureLoader().load(flagItem.value.online_link);
   const geometry = new THREE.PlaneGeometry(6, 4, 32, 32);
   // const material = new THREE.MeshBasicMaterial({
   //   map: texture,
@@ -120,8 +141,6 @@ const generateFlag = () => {
   console.log(scene);
 };
 
-// TODO：调整样式
-
 const strength = { value: 2 };
 
 // 动画渲染
@@ -134,11 +153,10 @@ const animate = () => {
   requestAnimationFrame(animate);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await getFlagData();
   initViewer();
   generateFlag();
   animate();
 });
 </script>
-
-<style lang="scss" scoped></style>
